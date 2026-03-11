@@ -8,6 +8,9 @@ def index(request):
     num_instances_avialable=BookInstance.objects.filter(status__exact='a').count()
     num_authors=Author.objects.count()
 
+    num_visits=request.session.get('num_visits',0)
+    request.session['num_visits'] = num_visits+1
+
     count_genres=Genre.objects.filter(name__iregex=r'\b' + 'фантастика' + r'\b').count()
     count_books=Book.objects.filter(title__iregex=r'\b' + 'window' + r'\b').count()
 
@@ -16,7 +19,7 @@ def index(request):
         request,
         'index.html',
         context={'num_books':num_books, 'num_instances':num_instances, 'num_instances_available':num_instances_avialable, 'num_authors':num_authors,
-                 'count_genres':count_genres, 'count_book':count_books},
+                 'count_genres':count_genres, 'count_book':count_books, 'num_visits':num_visits},
     )
 
 class BookListView(generic.ListView):
