@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
 from .models import Book, Author, BookInstance, Genre
-from .forms import RenewBookForm
+from .forms import RenewBookForm, BookForm
 import datetime
 
 
@@ -96,7 +96,7 @@ class AuthorDelete(DeleteView):
 
 class BookCreate(PermissionRequiredMixin, CreateView):
     model = Book
-    fields = ['title', 'author', 'summary', 'isbn', 'genre']
+    form_class = BookForm
     permission_required = 'catalog.can_mark_returned'
 
 class BookUpdate(PermissionRequiredMixin, UpdateView):
